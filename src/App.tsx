@@ -2,21 +2,31 @@ import { create } from "zustand";
 
 import "./App.css";
 
-const useStore = create((set) => ({
+type State = {
+  count: number;
+};
+
+type Actions = {
+  increment: () => void;
+  decrement: () => void;
+  reset: () => void;
+};
+
+const useStore = create<State & Actions>((set) => ({
   count: 0,
-  increase: () => set((state) => ({ count: state.count + 1 })),
-  decrease: () => set((state) => ({ count: state.count - 1 })),
-  reset: () => set((state) => ({ count: 0 })),
+  increment: () => set((state) => ({ count: state.count + 1 })),
+  decrement: () => set((state) => ({ count: state.count - 1 })),
+  reset: () => set(() => ({ count: 0 })),
 }));
 
 function App() {
-  const { count, increase, decrease, reset } = useStore((state) => state);
+  const { count, increment, decrement, reset } = useStore((state) => state);
 
   return (
     <>
       <p>{count}</p>
-      <button onClick={increase}>Increase</button>
-      <button onClick={decrease}>Decrease</button>
+      <button onClick={increment}>increment</button>
+      <button onClick={decrement}>decrement</button>
       <button onClick={reset}>Reset</button>
     </>
   );
